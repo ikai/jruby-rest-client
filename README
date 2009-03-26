@@ -1,0 +1,18 @@
+JRuby-RestClient is a wrapper for Java HttpClient. You would use this client if you need timeouts to work correctly for a JRuby application (as of 1.1.6, they do not).
+
+There are two packages that are needed to get this to work:
+
+1. HttpClient (http://apache.mirrors.hoobly.com/httpcomponents/commons-httpclient/binary/commons-httpclient-3.1.tar.gz)
+2. Codec (http://commons.apache.org/downloads/download_codec.cgi)
+
+Since I don't know what the licensing implications are of bundling these, I'm going to advise that you download the binaries and copy the jar files:
+
+'/commons-codec-1.3.jar'
+'/commons-httpclient-3.1.jar'
+
+Into the same directory as JRestClient.
+
+JRestClient works like Adam Wiggin's REST client (or ... like a grotesque facsimile of it):
+
+RestClient.get "http://127.0.0.1:3000/resource", {:header => 123}
+RestClient.post "http://127.0.0.1:3000/resource", {:key => 'value'}, {:header => 123}
