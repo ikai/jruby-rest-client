@@ -5,6 +5,8 @@ require File.dirname(__FILE__) + '/commons-httpclient-3.1.jar'
 require 'cgi'
 
 module JRestClient  
+  class RequestTimeout < Exception; end
+	
   include_package 'org.apache.commons.httpclient'
   include_package 'org.apache.commons.httpclient.methods'
   include_package 'org.apache.commons.httpclient.params'    
@@ -46,10 +48,14 @@ module JRestClient
   end
   
   def self.make_request(client, method)
-    status = client.executeMethod(method)
-    response = method.responseBody
-    method.releaseConnection
-
+    begin
+      status = client.executeMethod(method)
+      response = method.responseBody
+    rescue java.net.SocketTimeoutException => e
+      raise RequestTimeout.new(e)
+    ensure
+      method.releaseConnection
+    end
     java.lang.String.new(response).to_s
   end
   
