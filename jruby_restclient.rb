@@ -50,7 +50,7 @@ module JRestClient
     response = method.responseBody
     method.releaseConnection
 
-    java.lang.String.new(response)
+    java.lang.String.new(response).to_s
   end
   
   def self.set_headers(method, headers)
