@@ -10,7 +10,9 @@ module JRestClient
   include_package 'org.apache.commons.httpclient'
   include_package 'org.apache.commons.httpclient.methods'
   include_package 'org.apache.commons.httpclient.params'    
-  include_class 'org.apache.commons.httpclient.params.HttpMethodParams'  
+  include_class "org.apache.commons.httpclient.HttpClient" 
+  include_class "org.apache.commons.httpclient.methods.PostMethod"   
+  include_class "org.apache.commons.httpclient.methods.GetMethod"
 
   class << self
     attr_accessor :timeout
@@ -56,7 +58,7 @@ module JRestClient
     ensure
       method.releaseConnection
     end
-    java.lang.String.new(response).to_s
+    java.lang.String.new(response, "UTF-8").to_s
   end
   
   def self.set_headers(method, headers)
